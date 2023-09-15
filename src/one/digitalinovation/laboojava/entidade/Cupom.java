@@ -5,7 +5,7 @@ package one.digitalinovation.laboojava.entidade;
  * para obter um desconto, caso desejado.
  * @author thiago leite
  */
-public class Cupom {
+public class Cupom extends Pedido{
 
     /**
      * Código descritivo do cupom.

@@ -1,12 +1,11 @@
 package one.digitalinovation.laboojava.negocio;
 
 import one.digitalinovation.laboojava.basedados.Banco;
-import one.digitalinovation.laboojava.entidade.Cupom;
-import one.digitalinovation.laboojava.entidade.Pedido;
-import one.digitalinovation.laboojava.entidade.Produto;
+import one.digitalinovation.laboojava.entidade.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Classe para manipular a entidade {@link Pedido}.
@@ -58,14 +57,31 @@ public class PedidoNegocio {
     public void salvar(Pedido novoPedido, Cupom cupom) {
 
         //Definir padrão código
+        String codigo="PE%4d%2d%04d";
+
+
         //Pegar data do dia corrente
+        LocalDate hoje = LocalDate.now();
+
+
         //Formatar código
+        codigo= String.format(codigo,hoje.getYear(),hoje.getMonthValue(),bancoDados.getPedidos().length);
+
 
         //Setar código no pedido
+        novoPedido.setCodigo(codigo);
+
         //Setar cliente no pedido
+        novoPedido.setCliente(bancoDados.getCliente());
+
         //Calcular e set total
+        novoPedido.setTotal((int) calcularTotal(novoPedido.getProduto(),cupom));
+
         //Adicionar no banco
+        bancoDados.adicionarPedido(novoPedido);
+
         //Mensagem
+        System.out.println("Pedido cadastrado com sucesso ");
     }
 
     /**
@@ -96,5 +112,33 @@ public class PedidoNegocio {
      * Lista todos os pedidos realizados.
      */
     //TODO Método de listar todos os pedidos
+    public void listarTodos() {
+        if(bancoDados.getPedidos().length==0){
+            System.out.println("Não existem produtos cadastrados ");
+        } else{
+            for(Pedido pedido : bancoDados.getPedidos()){
+                System.out.println(pedido.toString());
+            }
+        }
+    }
+
+    public Pedido localizarPedido(String codigo){
+        for(Pedido pedido: bancoDados.getPedidos()){
+             if(pedido.getCodigo().equals(pedido)){
+                 return pedido;
+
+             }
+            System.out.println("Resultado" + pedido);
+        }
+
+        return null;
+
+    }
+
+
+
+
+
+
 
 }

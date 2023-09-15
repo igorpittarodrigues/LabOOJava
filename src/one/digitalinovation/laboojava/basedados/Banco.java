@@ -5,6 +5,7 @@ import one.digitalinovation.laboojava.entidade.Cupom;
 import one.digitalinovation.laboojava.entidade.Pedido;
 import one.digitalinovation.laboojava.entidade.Produto;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +34,15 @@ public class Banco {
     /**
      * Cliente cadastrado.
      */
-    private Cliente cliente;
+    private List <Cliente> clientes;
 
     public Banco() {
 
         this.produtos = new ArrayList<>();
         this.pedidos = new ArrayList<>();
-        this.cliente = new Cliente();
+        this.clientes = new ArrayList<>();
+        clientes.add((new Cliente("14130921767")));
+
 
         this.cupons = new ArrayList<>();
         cupons.add(new Cupom("CUPOM2", 2));
@@ -47,9 +50,7 @@ public class Banco {
         cupons.add(new Cupom("CUPOM7", 7));
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+    public Cliente[] getCliente() {return clientes.toArray(new Cliente[clientes.size()]);}
 
     public Cupom[] getCupons() {
         return cupons.toArray(new Cupom[cupons.size()]);
@@ -62,10 +63,13 @@ public class Banco {
     public Produto[] getProdutos() {
         return produtos.toArray(new Produto[produtos.size()]);
     }
+    public void adicionarCliente(Cliente cliente){clientes.add(cliente);}
+    public void excluirCliente(int posicao){clientes.remove(posicao);}
 
     public void adicionarProduto(Produto produto) {
         produtos.add(produto);
     }
+
 
     public void removerProduto(int posicao) {
         produtos.remove(posicao);

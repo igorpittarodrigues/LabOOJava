@@ -31,23 +31,58 @@ public class ClienteNegocio {
      */
     public Optional<Cliente> consultar(String cpf) {
 
-        if (bancoDados.getCliente().getCpf().equals(cpf)) {
-            return Optional.of(bancoDados.getCliente());
-        } else {
-            return Optional.empty();
-        }
+        for(Cliente cliente : bancoDados.getCliente()) {
+            if (cliente.getCpf().equals(cpf)) {
+                return Optional.of(cliente);
+            }
+
+            }return Optional.empty();
     }
 
     /**
      * Cadastra um novo cliente.
-     * @param cliente Novo cliente que terá acesso a aplicação
+
      */
     //TODO Fazer a inclusão de cliente
+    public void novoCliente(Cliente novoCliente){
+        boolean clienteNovo=false;
+        for(Cliente cliente : bancoDados.getCliente()){
+            if(cliente.getNome().equals(novoCliente)){
+                clienteNovo=true;
+                break;
+            }
+        }
+        if(!clienteNovo){
+            bancoDados.adicionarCliente(novoCliente);
+        }
+
+    }
 
     /**
      * Exclui um cliente específico.
-     * @param cpf CPF do cliente
+
      */
     //TODO Fazer a exclusão de cliente
+
+    public void excluirCliente(String cpf){
+       int achado=-1;
+
+        for(int i =0; i<bancoDados.getCliente().length; i++){
+            Cliente cliente= bancoDados.getCliente()[i];
+            if(cliente.getCpf().equals(cpf)){
+                achado=i;
+                break;
+            }
+
+        }
+       if(achado!= -1){
+           bancoDados.excluirCliente(achado);
+       }
+
+
+
+
+
+    }
 
 }

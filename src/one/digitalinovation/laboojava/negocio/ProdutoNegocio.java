@@ -1,8 +1,13 @@
 package one.digitalinovation.laboojava.negocio;
 
 import one.digitalinovation.laboojava.basedados.Banco;
+import one.digitalinovation.laboojava.entidade.Caderno;
+import one.digitalinovation.laboojava.entidade.Livro;
 import one.digitalinovation.laboojava.entidade.Produto;
+import one.digitalinovation.laboojava.entidade.constantes.Materia;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -36,7 +41,7 @@ public class ProdutoNegocio {
 
         boolean produtoRepetido = false;
         for (Produto produto: bancoDados.getProdutos()) {
-            if (produto.getCodigo() == novoProduto.getCodigo()) {
+            if (produto.getCodigo().equals(novoProduto.getCodigo())) {
                 produtoRepetido = true;
                 System.out.println("Produto já cadastrado.");
                 break;
@@ -53,8 +58,29 @@ public class ProdutoNegocio {
      * Exclui um produto pelo código de cadastro.
      * @param codigo Código de cadastro do produto
      */
+
+    //TODO Implementar a exclusão
     public void excluir(String codigo) {
-        //TODO Implementar a exclusão
+
+
+
+        int produtoAchado=-1;
+        for(int i=0; i<bancoDados.getProdutos().length; i++){
+
+            Produto produto=bancoDados.getProdutos()[i];
+            if(produto.getCodigo().equals(codigo)){
+                produtoAchado=i;
+            }
+
+
+        }
+        if(produtoAchado!= -1){
+            this.bancoDados.removerProduto(produtoAchado);
+            System.out.println("Produto excluído com sucesso");
+
+        }else{
+            System.out.println("Produto inexistente");
+        }
     }
 
     /**
@@ -87,5 +113,46 @@ public class ProdutoNegocio {
                 System.out.println(produto.toString());
             }
         }
+    }
+
+
+    public Caderno consultarCaderno(String materia){
+
+        for(Produto produto: bancoDados.getProdutos()){
+            if (produto instanceof Caderno){
+                Caderno caderno=(Caderno) produto;
+                if(caderno.getTipo().equals(materia)){
+                   return  caderno;
+
+                }
+                System.out.println("Resultado" + caderno);
+
+            }
+
+        }
+
+
+
+
+        return null;
+
+    }
+
+    public Livro consultarLivroNome(String nome){
+
+
+        for(Produto produto: bancoDados.getProdutos()){
+            if(produto instanceof Livro){
+                Livro livro=(Livro) produto;
+                if(livro.getNome().equals(nome)){
+                    return livro;
+                }
+                System.out.println("Resultado" + livro);
+            }
+
+
+        }
+
+        return null;
     }
 }
